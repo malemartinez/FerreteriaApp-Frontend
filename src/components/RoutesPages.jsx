@@ -7,6 +7,7 @@ import {
 import Home from '../containers/Home';
 import Login from '../containers/login';
 import Volante from './Volante';
+import Logged from '../containers/Logged';
 
 
 const RoutesPages = () => {
@@ -14,6 +15,7 @@ const RoutesPages = () => {
     <Routes>
             
             <Route path= "/login" element = {<Login /> } />
+            <Route path= "/logged" element = {<Logged /> } />
             {/* <Route path= "/registrar" element = {<Login /> } /> */}
             <Route path= "/regristroVenta" /* element = {<CharacterList /> } */ />
             <Route path= "/Inventario" /* element = { <EpisodeListing />} *//>
