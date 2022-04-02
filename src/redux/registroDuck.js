@@ -46,6 +46,7 @@ export function firebaseReducer(state = dataInicial, {type , payload }){
 
     case ActionTypes.FIREBASE_LOGIN:
       return { ...state ,activo: true }
+      
     case ActionTypes.LOADING:
         return {...state, loading: true}
 
@@ -89,7 +90,7 @@ export const  registrarInfoUsuario = (email,password, rol) => async(dispatch)=>{
     
         //crear usuario en la base de datos
         console.log(dataUser.user.uid);
-        // await setDoc(docuRef, { correo: email, rol: rol });
+        await setDoc(docuRef, { correo: email, rol: rol });
         await addDoc(databaseCollection, {correo: email, rol: rol})
     
       dispatch( {
@@ -119,7 +120,7 @@ export const ingresoUsuario =  (email , password) => async (dispatch) =>{
     // const errorMessage = error.message;
     dispatch( {
       type: ActionTypes.USER_ERROR,
-      payload: error
+      payload: error.message
   
     })
   }

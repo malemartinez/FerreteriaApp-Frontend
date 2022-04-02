@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Link
+  NavLink
 } from "react-router-dom";
 
 const Header = () => {
@@ -8,10 +8,10 @@ const Header = () => {
 
     <nav className="navbar navbar-dark bg-dark">
       <div className="container-md justify-content-end">
-        <Link className="navbar-brand" to="/">Inicio</Link>
-        <Link className="navbar-brand" to="/volante">Volante</Link>
-        <Link className="navbar-brand " to="/Inventario" >Inventario</Link>
-        <Link className="navbar-brand " to="/registroVenta" >Registrar Venta</Link>
+        {/* <NavLink className="navbar-brand" to="/">Inicio</NavLink> */}
+        <NavLink className="navbar-brand" to="/volante">Volante</NavLink>
+        <NavLink className="navbar-brand " to="/Inventario" >Inventario</NavLink>
+        <NavLink className="navbar-brand " to="/registroVenta" >Registrar Venta</NavLink>
       </div>
     </nav>
 
