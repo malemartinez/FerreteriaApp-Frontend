@@ -29,21 +29,21 @@ export const db = getFirestore(app);
 export const docuRef = doc(db, `roles/usuario`);
 console.log(docuRef)
 
-const cargarData = async()=>{
-  try {
-    setDoc(docuRef , {
-      name: "Alejandra",
-      Email: "maamartinez@unal.edu.co",
-      rol: "Admin",
-    })
+// const cargarData = async()=>{
+//   try {
+//     setDoc(docuRef , {
+//       name: "Alejandra",
+//       Email: "maamartinez@unal.edu.co",
+//       rol: "Admin",
+//     })
     
-  } catch (error) {
-      console.log(error)
-  }
+//   } catch (error) {
+//       console.log(error)
+//   }
 
-}
+// }
 
-cargarData();
+// cargarData();
 export const databaseCollection = collection(db, "users")
 
 // const generarBase = async ()=>{

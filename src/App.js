@@ -4,19 +4,15 @@ import {
   BrowserRouter as Router,
 
 } from "react-router-dom";
-import Header from './components/Header';
 import RoutesPages from './components/RoutesPages';
 
-import Volante from './components/Volante';
 import { onAuthStateChanged, getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
 import  app  from './firebase-config';
 import { useDispatch ,useSelector } from 'react-redux';
 import { setUser } from './redux/registroDuck';
 
 
 const auth = getAuth(app);
-const firestore = getFirestore(app);
 
 
 function App() {

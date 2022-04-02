@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword , signInWithEmailAndPassword } from "fir
 import { collection, addDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { docuRef } from "../firebase-config";
+import { databaseCollection } from "../firebase-config";
 
 // constantes
 const dataInicial = {
@@ -42,6 +43,9 @@ export function firebaseReducer(state = dataInicial, {type , payload }){
 
     case ActionTypes.FIREBASE_REGISTER:
       return { ...state}
+
+    case ActionTypes.FIREBASE_LOGIN:
+      return { ...state ,activo: true }
     case ActionTypes.LOADING:
         return {...state, loading: true}
 
@@ -77,21 +81,21 @@ export const registrarUsuario = ()=>{
 
 
 const auth = getAuth();
-export const  registrarInfoUsuario = async(email,password, rol)=>{
-  try {
 
-      
+export const  registrarInfoUsuario = (email,password, rol) => async(dispatch)=>{
+  try {
       const dataUser = await createUserWithEmailAndPassword(auth, email, password)
         console.log(dataUser)
     
         //crear usuario en la base de datos
         console.log(dataUser.user.uid);
-        setDoc(docuRef, { correo: email, rol: rol });
+        // await setDoc(docuRef, { correo: email, rol: rol });
+        await addDoc(databaseCollection, {correo: email, rol: rol})
     
-      return {
+      dispatch( {
         type: ActionTypes.FIREBASE_REGISTER,
     
-      }
+      })
     
   } catch (error) {
     return {
@@ -100,23 +104,25 @@ export const  registrarInfoUsuario = async(email,password, rol)=>{
   
     }
   }
-
-  
-
-  
 }
 
-export const ingresoUsuario = async (email , password) =>{
+export const ingresoUsuario =  (email , password) => async (dispatch) =>{
 
   try {
-    const data = await signInWithEmailAndPassword(auth, email, password)
+    await signInWithEmailAndPassword(auth, email, password)
+    dispatch({
+      type: ActionTypes.FIREBASE_LOGIN,
+  
+    })
   } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    // const errorCode = error.code;
+    // const errorMessage = error.message;
+    dispatch( {
+      type: ActionTypes.USER_ERROR,
+      payload: error
+  
+    })
   }
 
-  return {
-    type: ActionTypes.FIREBASE_LOGIN,
-
-  }
+  
 }

@@ -2,19 +2,30 @@ import React, { useState } from 'react';
 import app from '../firebase-config'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from 'firebase/auth';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { registrarInfoUsuario ,ingresoUsuario } from '../redux/registroDuck';
+import { registrarInfoUsuario ,ingresoUsuario ,registrarUsuario } from '../redux/registroDuck';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const auth = getAuth(app);
 
 const Login = () => {
 
-  const register = useSelector(state => state.firebaseAuth.registro)
+  let navigate = useNavigate();
 
+  const register = useSelector(state => state.firebaseAuth.registro)
+  const activo = useSelector(state => state.firebaseAuth.activo)
+  const error = useSelector(state => state.firebaseAuth.error)
+  const errorMessage = useSelector(state => state.firebaseAuth.errorMessage)
   const dispatch = useDispatch();
 
-  const [ error  , setError] = useState(false)
-  const [ errorMessage  , setErrorMessage] = useState("")
+  React.useEffect(() => {
+    console.log(activo)
+    if(activo){
+      navigate("/Logged");
+    }
+}, [activo])
+
 
   const getData=(e)=>{
     e.preventDefault();
@@ -25,9 +36,20 @@ const Login = () => {
     console.log( email, password);
 
     if(register){
-      dispatch(registrarInfoUsuario(email,password , rol))
+
+      try {
+        dispatch(registrarInfoUsuario(email,password , rol))
+        
+      } catch (error) {
+        console.error(error)
+      }
     }else{
-      dispatch(ingresoUsuario(email , password))
+      try {
+        dispatch(ingresoUsuario(email , password ,rol))
+        
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 
@@ -43,7 +65,7 @@ const Login = () => {
      {
           error ? (
               <div className="alert alert-danger">
-                  {errorMessage}
+                  {errorMessage.message}
               </div>
           ) : null
       }
@@ -77,7 +99,27 @@ const Login = () => {
             </select>
             <button type="submit" className="btn btn-lg btn-dark btn-block flex-fill" >
               {register? "Registrar": "Ingresar" }
-              </button>
+            </button>
+            {register?
+              (<button 
+                type="button"
+                className="btn btn-sm btn-warning btn-block mt-2"
+                onClick={ ()=> dispatch(ingresoUsuario()) }
+            > Ya tengo una cuenta
+               
+            </button>): 
+              (
+                <button 
+                type="button"
+                className="btn btn-md btn-warning btn-block mt-2"
+                onClick={ ()=> dispatch(registrarUsuario()) }
+            > No tengo cuenta
+               
+            </button>
+              ) 
+            } 
+
+            
          </div>
 
          
