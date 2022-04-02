@@ -1,11 +1,19 @@
-import React from 'react';
-import {db, auth} from '../firebase-config'
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import app from '../firebase-config'
+import { useDispatch, useSelector } from 'react-redux';
+import { getAuth } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { registrarInfoUsuario } from '../redux/registroDuck';
 
+const auth = getAuth(app);
 
 const Login = () => {
+
   const register = useSelector(state => state.firebaseAuth.registro)
-  const Login = useSelector(state => state.firebaseAuth.ingreso)
+  const user = useSelector(state => state.firebaseAuth.user)
+  const dispatch = useDispatch();
+  const [ error  , setError] = useState(false)
+  const [ errorMessage  , setErrorMessage] = useState("")
 
   const getData=(e)=>{
     e.preventDefault();
@@ -13,27 +21,61 @@ const Login = () => {
     const password = e.target.elements.password.value;
 
     console.log( email, password);
+
+    if(register){
+      dispatch(registrarInfoUsuario(email,password))
+    }else{
+
+      signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user)
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage)
+        setError(true)
+        setErrorMessage(errorMessage)
+      });
+
+    }
+
+  
   }
 
 
   return ( 
-    <div>
-      <h1 className="title" >{ Login ? "Registro" : "Inicio sesión"}</h1>
+    <div  className="row justify-content-center" >
+      <div  className="col-12 col-sm-8 col-md-6 col-xl-4" >
+      <h1 className="title" >{  register?"Registro" : "Inicio sesión"}</h1>
      <form onSubmit={getData} >
+     {
+          error ? (
+              <div className="alert alert-danger">
+                  {error}
+              </div>
+          ) : null
+      }
          <div className="mb-3">
-           <label htmlFor="" className="form-label">Email address</label>
+           <label htmlFor="email" className="form-label">Email address</label>
            <input type="email" className="form-control" id="email" />
-          
+            { error? (<p> Error: {errorMessage} </p>): (null)}
          </div>
+
          <div className="mb-3">
-           <label htmlFor="" className="form-label">Password</label>
+           <label htmlFor="password" className="form-label">Password</label>
            <input type="password" className="form-control"  id='password'/>
          </div>
          
-         <button type="submit" className="btn btn-primary" >
-           { register? "Registrarme" : "Ingresar" }
+         <button type="submit" className="btn btn-lg btn-dark btn-block" >
+           {register? "Registrar": "Ingresar" }
            </button>
      </form>
+      </div>
+      
     </div>
 
   );

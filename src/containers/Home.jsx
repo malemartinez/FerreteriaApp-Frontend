@@ -5,7 +5,6 @@ import { registrarUsuario ,LoginUsuario } from '../redux/registroDuck';
 
 const Home = () => {
 
-  const isRegister = useSelector(state => state.firebaseAuth.registro)
   const dispatch = useDispatch();
 
 
@@ -16,11 +15,11 @@ const Home = () => {
       <div className='d-flex'>
         <div>
           <p>Ya tengo cuenta</p>
-          <Link to="/loginUsuario" onClick={ dispatch(LoginUsuario()) }>Ingresar</Link>
+          <Link to="/loginUsuario">Ingresar</Link>
         </div>
         <div>
           <p>No tengo cuenta</p>
-          <Link to="/registroUsuario" onClick={ dispatch(registrarUsuario()) } >Registrarme</Link>
+          <Link to="/registrar" onClick={ ()=> dispatch(registrarUsuario()) } >Registrarme</Link>
         </div>
         <div></div>
       </div>
