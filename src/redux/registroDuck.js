@@ -1,5 +1,8 @@
 import { getAuth } from "firebase/auth"
 import { createUserWithEmailAndPassword } from "firebase/auth"
+import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 // constantes
 const dataInicial = {
@@ -70,25 +73,37 @@ export const registrarUsuario = ()=>{
   }
 }
 
-export const  registrarInfoUsuario = async(email,password)=>{
-
-  const auth = getAuth();
-  await createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in
-    const user = userCredential.user;
-    console.log(user)
-    return {
-      type: ActionTypes.FIREBASE_REGISTER,
-
-    }
+export const  registrarInfoUsuario = async(email,password, rol)=>{
+  try {
     
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+      const auth = getAuth();
+      const dataUser = await createUserWithEmailAndPassword(auth, email, password)
+        console.log(dataUser)
     
-  });
+        //crear usuario en la base de datos
+        console.log(dataUser.user.uid);
+        const docuRef = doc(db, `usuarios/${dataUser.user.uid}`);
+        setDoc(docuRef, { correo: email, rol: rol });
+    
+      return {
+        type: ActionTypes.FIREBASE_REGISTER,
+    
+      }
+    
+  } catch (error) {
+    
+  }
 
   
+
+  
+}
+
+export const ingresoUsuario = (email , password) =>{
+
+
+  return {
+    type: ActionTypes.FIREBASE_LOGIN,
+
+  }
 }

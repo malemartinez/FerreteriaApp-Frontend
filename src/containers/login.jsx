@@ -3,15 +3,16 @@ import app from '../firebase-config'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { registrarInfoUsuario } from '../redux/registroDuck';
+import { registrarInfoUsuario ,ingresoUsuario } from '../redux/registroDuck';
 
 const auth = getAuth(app);
 
 const Login = () => {
 
   const register = useSelector(state => state.firebaseAuth.registro)
-  const user = useSelector(state => state.firebaseAuth.user)
+
   const dispatch = useDispatch();
+
   const [ error  , setError] = useState(false)
   const [ errorMessage  , setErrorMessage] = useState("")
 
@@ -25,6 +26,7 @@ const Login = () => {
     if(register){
       dispatch(registrarInfoUsuario(email,password))
     }else{
+      dispatch(ingresoUsuario(email , password))
 
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
