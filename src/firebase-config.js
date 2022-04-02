@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { collection } from "firebase/firestore";
+import { getFirestore, setDoc } from "firebase/firestore";
 import { doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -26,8 +26,42 @@ export const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
 //crear una coleccion en la base para guardar usuarios
-export const docuRef = doc(db, `usuarios/user`);
-// export const databaseCollection = collection(db, "users")
+export const docuRef = doc(db, `roles/usuario`);
+console.log(docuRef)
+
+const cargarData = async()=>{
+  try {
+    setDoc(docuRef , {
+      name: "Alejandra",
+      Email: "maamartinez@unal.edu.co",
+      rol: "Admin",
+    })
+    
+  } catch (error) {
+      console.log(error)
+  }
+
+}
+
+cargarData();
+export const databaseCollection = collection(db, "users")
+
+// const generarBase = async ()=>{
+//   try {
+//     const docRef = await addDoc(databaseCollection, {
+//       first: "Ada",
+//       last: "Lovelace",
+//       born: 1815
+//     });
+//     console.log("Document written with ID: ", docRef.id);
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//   }
+
+// }
+// generarBase();
+
+
 
 
 export default app;

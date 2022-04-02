@@ -1,8 +1,7 @@
 import { getAuth } from "firebase/auth"
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword , signInWithEmailAndPassword } from "firebase/auth"
 import { collection, addDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase-config";
 import { docuRef } from "../firebase-config";
 
 // constantes
@@ -10,7 +9,9 @@ const dataInicial = {
   user:null,
   loading: false,
   activo: false,
-  registro: false
+  registro: false,
+  error: false,
+  errorMessage: null
 
 }
 
@@ -45,7 +46,7 @@ export function firebaseReducer(state = dataInicial, {type , payload }){
         return {...state, loading: true}
 
     case ActionTypes.USER_ERROR:
-        return {...dataInicial}
+        return {...dataInicial , error: true , errorMessage: payload }
 
     case ActionTypes.USER_EXITO:
         return {...state, loading: false, activo: true, user: payload}
@@ -74,10 +75,12 @@ export const registrarUsuario = ()=>{
   }
 }
 
+
+const auth = getAuth();
 export const  registrarInfoUsuario = async(email,password, rol)=>{
   try {
 
-      const auth = getAuth();
+      
       const dataUser = await createUserWithEmailAndPassword(auth, email, password)
         console.log(dataUser)
     
@@ -91,7 +94,11 @@ export const  registrarInfoUsuario = async(email,password, rol)=>{
       }
     
   } catch (error) {
-    
+    return {
+      type: ActionTypes.USER_ERROR,
+      payload: error
+  
+    }
   }
 
   
@@ -99,8 +106,14 @@ export const  registrarInfoUsuario = async(email,password, rol)=>{
   
 }
 
-export const ingresoUsuario = (email , password) =>{
+export const ingresoUsuario = async (email , password) =>{
 
+  try {
+    const data = await signInWithEmailAndPassword(auth, email, password)
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
 
   return {
     type: ActionTypes.FIREBASE_LOGIN,

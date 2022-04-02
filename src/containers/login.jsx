@@ -28,26 +28,11 @@ const Login = () => {
       dispatch(registrarInfoUsuario(email,password , rol))
     }else{
       dispatch(ingresoUsuario(email , password))
-
-      signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user)
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage)
-        setError(true)
-        setErrorMessage(errorMessage)
-      });
-
     }
-
-  
   }
+
+  //validaciones de los que ingresa el usuario antes de enviar la data
+  
 
 
   return ( 
@@ -64,28 +49,38 @@ const Login = () => {
       }
          <div className="mb-3">
            <label htmlFor="email" className="form-label">Email address</label>
-           <input type="email" className="form-control" id="email" />
+           <input type="email" 
+                  className="form-control" 
+                  id="email"
+                  placeholder="Ingrese Email"
+
+             />
             
          </div>
 
          <div className="mb-3">
            <label htmlFor="password" className="form-label">Password</label>
-           <input type="password" className="form-control"  id='password'/>
+           <input type="password" 
+                  className="form-control"  
+                  id='password'
+                  placeholder="Ingrese Contraseña"
+
+                  />
          </div>
 
-         <div className='mb-3'>
+         <div className='mb-3 d-flex flex-column'>
 
-          <label htmlFor="rol">Rol:</label>
-            <select id="rol">
+          {/* <label htmlFor="rol">Rol:</label> */}
+            <select id="rol" className='p-1 flex-fill mb-3'>
               <option value="admin">Administrador</option>
               <option value="user">Usuario</option>
             </select>
+            <button type="submit" className="btn btn-lg btn-dark btn-block flex-fill" >
+              {register? "Registrar": "Ingresar" }
+              </button>
          </div>
 
          
-         <button type="submit" className="btn btn-lg btn-dark btn-block" >
-           {register? "Registrar": "Ingresar" }
-           </button>
      </form>
       </div>
       

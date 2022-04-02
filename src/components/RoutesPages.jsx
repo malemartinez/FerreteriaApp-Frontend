@@ -13,8 +13,8 @@ const RoutesPages = () => {
   return ( 
     <Routes>
             
-            <Route path= "/loginUsuario" element = {<Login /> } />
-            <Route path= "/registrar" element = {<Login /> } />
+            <Route path= "/login" element = {<Login /> } />
+            {/* <Route path= "/registrar" element = {<Login /> } /> */}
             <Route path= "/regristroVenta" /* element = {<CharacterList /> } */ />
             <Route path= "/Inventario" /* element = { <EpisodeListing />} *//>
             <Route path='/Volante' element = {<Volante/> }/>

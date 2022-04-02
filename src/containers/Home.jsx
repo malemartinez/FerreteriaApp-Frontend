@@ -15,11 +15,11 @@ const Home = () => {
       <div className='d-flex'>
         <div>
           <p>Ya tengo cuenta</p>
-          <Link to="/loginUsuario">Ingresar</Link>
+          <Link to="/login">Ingresar</Link>
         </div>
         <div>
           <p>No tengo cuenta</p>
-          <Link to="/registrar" onClick={ ()=> dispatch(registrarUsuario()) } >Registrarme</Link>
+          <Link to="/login" onClick={ ()=> dispatch(registrarUsuario()) } >Registrarme</Link>
         </div>
         <div></div>
       </div>
