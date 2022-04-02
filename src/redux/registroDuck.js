@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import { collection, addDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { docuRef } from "../firebase-config";
 
 // constantes
 const dataInicial = {
@@ -75,14 +76,13 @@ export const registrarUsuario = ()=>{
 
 export const  registrarInfoUsuario = async(email,password, rol)=>{
   try {
-    
+
       const auth = getAuth();
       const dataUser = await createUserWithEmailAndPassword(auth, email, password)
         console.log(dataUser)
     
         //crear usuario en la base de datos
         console.log(dataUser.user.uid);
-        const docuRef = doc(db, `usuarios/${dataUser.user.uid}`);
         setDoc(docuRef, { correo: email, rol: rol });
     
       return {

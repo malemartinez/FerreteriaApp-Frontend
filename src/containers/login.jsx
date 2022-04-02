@@ -20,11 +20,12 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.elements.email.value;
     const password = e.target.elements.password.value;
+    const rol = e.target.elements.rol.value;
 
     console.log( email, password);
 
     if(register){
-      dispatch(registrarInfoUsuario(email,password))
+      dispatch(registrarInfoUsuario(email,password , rol))
     }else{
       dispatch(ingresoUsuario(email , password))
 
@@ -57,20 +58,30 @@ const Login = () => {
      {
           error ? (
               <div className="alert alert-danger">
-                  {error}
+                  {errorMessage}
               </div>
           ) : null
       }
          <div className="mb-3">
            <label htmlFor="email" className="form-label">Email address</label>
            <input type="email" className="form-control" id="email" />
-            { error? (<p> Error: {errorMessage} </p>): (null)}
+            
          </div>
 
          <div className="mb-3">
            <label htmlFor="password" className="form-label">Password</label>
            <input type="password" className="form-control"  id='password'/>
          </div>
+
+         <div className='mb-3'>
+
+          <label htmlFor="rol">Rol:</label>
+            <select id="rol">
+              <option value="admin">Administrador</option>
+              <option value="user">Usuario</option>
+            </select>
+         </div>
+
          
          <button type="submit" className="btn btn-lg btn-dark btn-block" >
            {register? "Registrar": "Ingresar" }
