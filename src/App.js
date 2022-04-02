@@ -17,8 +17,6 @@ const auth = getAuth(app);
 
 function App() {
 
-  const user = useSelector(state => state.firebaseAuth.user)
-
   const dispatch = useDispatch();
 
     // Firebase
