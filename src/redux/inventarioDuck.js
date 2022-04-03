@@ -1,6 +1,7 @@
 // constantes
 const dataInicial = {
   productos: [],
+  totalInventario: [],
   error: null,
   errorMessage: null
 
@@ -15,9 +16,14 @@ export const ActionTypes = {
 
 // reducer
 export function inventarioReducer(state = dataInicial, {type , payload }){
+
   switch(type){
     case ActionTypes.SET_PRODUCTOS:
-        return {...state, productos: payload}
+      if(state.productos.length !== 0){
+        return {...state}
+      }
+      return {...state, productos: payload}
+
     case ActionTypes.INVENTARIO_ERROR:
       return {...state, error: true , errorMessage: payload}
 
@@ -37,10 +43,10 @@ export const fetchData = () =>async(dispatch) => {
     const data = await fetch('https://ferreteriadonraul.herokuapp.com/productos')
     const response = await data.json()
     console.log(response)
-    return {
+    return dispatch( {
       type: ActionTypes.SET_PRODUCTOS,
       payload: response
-    }
+    })
     
   } catch (error) {
     dispatch( {
