@@ -41,11 +41,15 @@ function App() {
 
 
   return (
-    <div className="container-fluid  mt-2">
+    <div className="">
+      <nav className="navbar bg-warning container-fluid p-3 mb-5">
+      <div className="container-fluid">
+        <span className="navbar-brand mb-0 h1 ">FerreteriaApp</span>
+      </div>
+    </nav>
       <Router>
-        <div className="container-fluid  mt-2">
+        <div className="container-sm">
           {/* <Header /> */}
-          
           <RoutesPages />
         </div>
       </Router>
