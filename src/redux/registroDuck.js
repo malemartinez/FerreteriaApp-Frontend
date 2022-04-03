@@ -99,6 +99,12 @@ export const setRol = (rol)=>{
   }
 }
 
+export const setCloseSesion = ()=>{
+  return{
+    type: ActionTypes.CERRAR_SESION,
+  }
+}
+
 
 const auth = getAuth();
 

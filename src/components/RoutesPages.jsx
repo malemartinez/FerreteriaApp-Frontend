@@ -13,6 +13,7 @@ import Admin from '../containers/Admin';
 import Volante from './Volante';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import Inventario from './Inventario';
 
 
 
@@ -24,7 +25,7 @@ const RoutesPages = () => {
     <Routes>
           <Route path='/admin' element={ rol == "admin" ? (<Admin/>): (<Navigate to="/"/>) }>
               <Route path= "registroVenta" element = {"registro" }/>
-              <Route path= "Inventario" element = { "hola inventario"}/> 
+              <Route path= "Inventario" element = { <Inventario/>}/> 
               <Route path='volante' element = {<Volante/> }/> 
           </Route>
           <Route exact path= "/logged" element = {<Logged /> } />
