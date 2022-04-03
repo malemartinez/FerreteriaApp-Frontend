@@ -14,7 +14,7 @@ function Inventario() {
   useEffect(()=>{
     dispatch(fetchData())
   
-  } , [productos])
+  } , [dispatch])
 
 
   return (

@@ -1,7 +1,7 @@
 // constantes
 const dataInicial = {
   productos: [],
-  totalInventario: [],
+  totalInventario: 0,
   error: null,
   errorMessage: null
 
@@ -11,7 +11,8 @@ const dataInicial = {
 export const ActionTypes = {
 
   SET_PRODUCTOS: "SET_PRODUCTOS",
-  INVENTARIO_ERROR: "INVENTARIO_ERROR"
+  INVENTARIO_ERROR: "INVENTARIO_ERROR",
+  SUM_INVENTARIO: "SUM_INVENTARIO"
 }
 
 // reducer
@@ -27,7 +28,9 @@ export function inventarioReducer(state = dataInicial, {type , payload }){
     case ActionTypes.INVENTARIO_ERROR:
       return {...state, error: true , errorMessage: payload}
 
-
+    case ActionTypes.SUM_INVENTARIO:
+      const sum = state.totalInventario + payload
+      return { ...state , totalInventario:sum }
     default: 
         return state;
       
@@ -54,13 +57,9 @@ export const fetchData = () =>async(dispatch) => {
       payload: error
       })
   }
-
-
-
-
 }
 
-export const registrarUsuario = ()=>{
+export const sumInventario = ()=>{
   return {
     type: ActionTypes.REGISTER
   }
