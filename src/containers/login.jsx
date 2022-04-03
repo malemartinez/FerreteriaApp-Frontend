@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from 'firebase/auth';
 import { registrarInfoUsuario ,ingresoUsuario ,registrarUsuario } from '../redux/registroDuck';
 import { useNavigate } from 'react-router-dom';
+import { desregistrar } from '../redux/registroDuck';
 
 
 
@@ -65,7 +66,7 @@ const Login = () => {
      {
           error ? (
               <div className="alert alert-danger">
-                  {errorMessage.message}
+                  {errorMessage}
               </div>
           ) : null
       }
@@ -104,7 +105,7 @@ const Login = () => {
               (<button 
                 type="button"
                 className="btn btn-sm btn-warning btn-block mt-2"
-                onClick={ ()=> dispatch(ingresoUsuario()) }
+                onClick={ ()=> dispatch(desregistrar()) }
             > Ya tengo una cuenta
                
             </button>): 

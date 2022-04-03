@@ -1,15 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc } from "firebase/firestore";
-import { doc } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCD69T7sDS5qQtxf4j5IU2m1_oxSQO3a24",
   authDomain: "ferreteriaapp-6fc3d.firebaseapp.com",
@@ -23,11 +16,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const databaseCollection = collection(db, "users")
 // const analytics = getAnalytics(app);
 
 //crear una coleccion en la base para guardar usuarios
-export const docuRef = doc(db, `roles/usuario`);
-console.log(docuRef)
+
+
 
 // const cargarData = async()=>{
 //   try {
@@ -44,7 +38,7 @@ console.log(docuRef)
 // }
 
 // cargarData();
-export const databaseCollection = collection(db, "users")
+
 
 // const generarBase = async ()=>{
 //   try {

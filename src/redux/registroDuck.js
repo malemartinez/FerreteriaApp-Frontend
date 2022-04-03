@@ -4,13 +4,15 @@ import { collection, addDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { docuRef } from "../firebase-config";
 import { databaseCollection } from "../firebase-config";
+import { db } from "../firebase-config";
 
 // constantes
 const dataInicial = {
   user:null,
-  loading: false,
+  rol: null,
   activo: false,
   registro: false,
+  ingresado: false,
   error: false,
   errorMessage: null
 
@@ -19,9 +21,11 @@ const dataInicial = {
 // types
 export const ActionTypes = {
   REGISTER: "REGISTER",
+  DESREGISTRAR : "DESREGISTRAR",
   FIREBASE_REGISTER: "FIREBASE_REGISTER",
   FIREBASE_LOGIN: "FIREBASE_LOGIN",
   SET_USER: "SET_USER",
+  SET_ROL: "SET_ROL",
 
   LOADING : 'LOADING',
   USER_EXITO : 'USER_EXITO',
@@ -36,25 +40,27 @@ export const ActionTypes = {
 export function firebaseReducer(state = dataInicial, {type , payload }){
   switch(type){
     case ActionTypes.REGISTER:
-        return {...state , registro:true}
+        return {...state , registro:true , error: false , errorMessage: null}
+    case ActionTypes.DESREGISTRAR:
+      return {...state, registro: false}
 
     case ActionTypes.SET_USER:
         return {...state, user: payload}
 
     case ActionTypes.FIREBASE_REGISTER:
-      return { ...state}
+      return { ...state , rol:payload , ingresado: true }
 
     case ActionTypes.FIREBASE_LOGIN:
-      return { ...state ,activo: true }
-      
-    case ActionTypes.LOADING:
-        return {...state, loading: true}
+      return { ...state ,activo: true , rol: payload}
+    
+      case ActionTypes.SET_ROL:
+        return { ...state , rol: payload }
 
     case ActionTypes.USER_ERROR:
         return {...dataInicial , error: true , errorMessage: payload }
 
     case ActionTypes.USER_EXITO:
-        return {...state, loading: false, activo: true, user: payload}
+        return {...state, activo: true, user: payload}
 
     case ActionTypes.CERRAR_SESION:
         return {...dataInicial}
@@ -80,6 +86,19 @@ export const registrarUsuario = ()=>{
   }
 }
 
+export const desregistrar = ()=>{
+  return{
+    type: ActionTypes.DESREGISTRAR
+  }
+}
+
+export const setRol = (rol)=>{
+  return{
+    type: ActionTypes.SET_ROL,
+    payload: rol
+  }
+}
+
 
 const auth = getAuth();
 
@@ -90,30 +109,32 @@ export const  registrarInfoUsuario = (email,password, rol) => async(dispatch)=>{
     
         //crear usuario en la base de datos
         console.log(dataUser.user.uid);
+        const docuRef = doc(db, `usuario/${dataUser.user.uid}`);
         await setDoc(docuRef, { correo: email, rol: rol });
         await addDoc(databaseCollection, {correo: email, rol: rol})
     
       dispatch( {
         type: ActionTypes.FIREBASE_REGISTER,
-    
+        payload:rol
       })
     
   } catch (error) {
-    return {
+    console.log(error)
+    dispatch ( {
       type: ActionTypes.USER_ERROR,
-      payload: error
+      payload: error.message
   
-    }
+    })
   }
 }
 
-export const ingresoUsuario =  (email , password) => async (dispatch) =>{
+export const ingresoUsuario =  (email , password , rol) => async (dispatch) =>{
 
   try {
     await signInWithEmailAndPassword(auth, email, password)
     dispatch({
       type: ActionTypes.FIREBASE_LOGIN,
-  
+      payload:rol
     })
   } catch (error) {
     // const errorCode = error.code;
@@ -124,6 +145,5 @@ export const ingresoUsuario =  (email , password) => async (dispatch) =>{
   
     })
   }
-
-  
 }
+

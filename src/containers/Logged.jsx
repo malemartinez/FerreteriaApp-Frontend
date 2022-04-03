@@ -1,48 +1,50 @@
 import React, { useEffect, useState } from 'react'
-import { docuRef } from '../firebase-config';
-import { getDoc } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
+import { getDoc ,doc } from 'firebase/firestore';
+import { useDispatch, useSelector } from 'react-redux';
 import Admin from './Admin';
 import User from './User';
+import { setRol } from '../redux/registroDuck';
+import { db } from '../firebase-config';
+import { Navigate } from 'react-router-dom';
 
 const Logged = () => {
   const userFirebase = useSelector(state => state.firebaseAuth.user)
+  const rol = useSelector(state => state.firebaseAuth.rol)
+  const dispatch = useDispatch();
 
-  const [user, setUser] = useState(null);
+  // async function getRolfromFirebase(uid) {
+  //   const docuRef = doc(db, `usuario/${uid}`);
+  //   const document = await getDoc(docuRef);
+  //   const infoUser = document.data();
+  //   return infoUser;
+  // }
 
-  async function getRolfromFirebase() {
-    // const docuRef = doc(firestore, `usuarios/${uid}`);
-    const document = await getDoc(docuRef);
-    const infoUser = document.data();
-    return infoUser;
-  }
+    // useEffect(()=>{
+    //   const setUserRol = async (user)=> {
+    //     const data = await getRolfromFirebase(user.uid)
+    //     // dispatch(setRol(data.rol))
+    //     setUser(data);
+    //     console.log(data)
+        
+    //   }
+    //   setUserRol(userFirebase);
 
-  useEffect(()=>{
-    const setUserRol = ()=> {
-      getRolfromFirebase().then((data) => {
-        setUser(data);
-      });
-    }
-    setUserRol();
-
-  }, [userFirebase])
-
-
-
-
-
+    //  }, [])
+    
   return ( 
     <>
         {
-          (user == null) ?
+          (userFirebase == null) ?
           (<div>...Cargando Data</div>):
           
           ( <div>
               {
-                (user.rol == "admin")?(
+                (rol == "admin")?(
                   <Admin />
                 ):
-                 (<User/>)
+                 (
+                   rol? (<User />): (<Navigate to= "/"/>)
+                 )
               }
           </div> )
         }

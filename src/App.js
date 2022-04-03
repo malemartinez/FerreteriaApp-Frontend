@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -21,20 +21,22 @@ function App() {
 
     // Firebase
 
-    React.useEffect(() => {
-      const fetchUser = () => {
-        onAuthStateChanged(auth , user => {
-            console.log(user)
-            if(user){
-                dispatch(setUser(user))
-                
-            }else{
-                dispatch(setUser(null))
-            }
-        })
-      } 
-      fetchUser()
-  }, [])
+ useEffect(()=>{
+   const fetchUser = () => {
+     onAuthStateChanged(auth , user => {
+         console.log(user)
+         if(user){
+             dispatch(setUser(user))
+             
+         }else{
+             dispatch(setUser(null))
+         }
+     })
+   } 
+   fetchUser();
+
+ } , [])
+  
  
 
 

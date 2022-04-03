@@ -6,21 +6,31 @@ import {
 } from "react-router-dom";
 import Home from '../containers/Home';
 import Login from '../containers/login';
-import Volante from './Volante';
+
 import Logged from '../containers/Logged';
+import PrivateRoute from './PrivateRoute';
+import Admin from '../containers/Admin';
+import Volante from './Volante';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
 
 
 const RoutesPages = () => {
+
+  const rol = useSelector(state => state.firebaseAuth.rol)
+
   return ( 
     <Routes>
-            
-            <Route path= "/login" element = {<Login /> } />
-            <Route path= "/logged" element = {<Logged /> } />
-            {/* <Route path= "/registrar" element = {<Login /> } /> */}
-            <Route path= "/regristroVenta" /* element = {<CharacterList /> } */ />
-            <Route path= "/Inventario" /* element = { <EpisodeListing />} *//>
-            <Route path='/Volante' element = {<Volante/> }/>
-            <Route path='/' element = {<Home />}/>
+          <Route path='/admin' element={ rol == "admin" ? (<Admin/>): (<Navigate to="/"/>) }>
+              <Route path= "registroVenta" element = {"registro" }/>
+              <Route path= "Inventario" element = { "hola inventario"}/> 
+              <Route path='volante' element = {<Volante/> }/> 
+          </Route>
+          <Route exact path= "/logged" element = {<Logged /> } />
+          <Route exact path= "/login" element = {<Login /> } />
+          <Route exact path='/' element = {<Home />}/>
+          
             {/* <Route path="*" element={"No encontrada"} /> */}
     </Routes>
    );
