@@ -1,6 +1,7 @@
 // constantes
 const dataInicial = {
   productos: [],
+  producto: null,
   totalInventario: 0,
   error: null,
   errorMessage: null

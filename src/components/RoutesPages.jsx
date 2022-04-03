@@ -8,7 +8,6 @@ import Home from '../containers/Home';
 import Login from '../containers/login';
 
 import Logged from '../containers/Logged';
-import PrivateRoute from './PrivateRoute';
 import Admin from '../containers/Admin';
 import Volante from './Volante';
 import { useSelector } from 'react-redux';
