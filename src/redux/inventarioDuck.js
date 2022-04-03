@@ -1,6 +1,8 @@
 // constantes
 const dataInicial = {
-  productos: []
+  productos: [],
+  error: null,
+  errorMessage: null
 
 }
 
@@ -8,6 +10,7 @@ const dataInicial = {
 export const ActionTypes = {
 
   SET_PRODUCTOS: "SET_PRODUCTOS",
+  INVENTARIO_ERROR: "INVENTARIO_ERROR"
 }
 
 // reducer
@@ -15,8 +18,8 @@ export function inventarioReducer(state = dataInicial, {type , payload }){
   switch(type){
     case ActionTypes.SET_PRODUCTOS:
         return {...state, productos: payload}
-    case ActionTypes.DESREGISTRAR:
-      return {}
+    case ActionTypes.INVENTARIO_ERROR:
+      return {...state, error: true , errorMessage: payload}
 
 
     default: 
@@ -28,11 +31,27 @@ export function inventarioReducer(state = dataInicial, {type , payload }){
 
 // actions
 
-export const setProductos = ( productos) => {
-  return {
-    type: ActionTypes.SET_PRODUCTOS,
-    payload: productos
+export const fetchData = () =>async(dispatch) => {
+
+  try {
+    const data = await fetch('https://ferreteriadonraul.herokuapp.com/productos')
+    const response = await data.json()
+    console.log(response)
+    return {
+      type: ActionTypes.SET_PRODUCTOS,
+      payload: response
     }
+    
+  } catch (error) {
+    dispatch( {
+      type: ActionTypes.INVENTARIO_ERROR,
+      payload: error
+      })
+  }
+
+
+
+
 }
 
 export const registrarUsuario = ()=>{

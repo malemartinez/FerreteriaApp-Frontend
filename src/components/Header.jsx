@@ -20,7 +20,7 @@ const Header = () => {
 }
   return ( 
 
-    <nav className="navbar navbar-dark bg-warning">
+    <nav className="navbar navbar-dark bg-dark">
       <div className="container-lg justify-content-end">
         {/* <NavLink className="navbar-brand" to="/">Inicio</NavLink> */}
         <NavLink className="navbar-brand" to="/admin/volante">Volante</NavLink>
