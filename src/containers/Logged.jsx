@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { getDoc ,doc } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 import Admin from './Admin';
@@ -32,7 +32,7 @@ const Logged = () => {
     //  }, [])
     
   return ( 
-    <>
+    <Fragment>
         {
           (userFirebase == null) ?
           (<div>...Cargando Data</div>):
@@ -48,7 +48,7 @@ const Logged = () => {
               }
           </div> )
         }
-    </>
+    </Fragment>
     
    );
 }

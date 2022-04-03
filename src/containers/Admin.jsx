@@ -1,16 +1,19 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from "../components/Header"
+import { Fragment } from 'react';
 
 
 
-const Admin = ({props}) => {
+
+const Admin = () => {
+
   return ( 
-    <div>
+    <Fragment>
       <Header />
       <h1>Bienvenido Admin</h1>
       <Outlet/>
-    </div>
+    </Fragment>
    );
 }
  

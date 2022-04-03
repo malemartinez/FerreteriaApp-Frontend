@@ -104,7 +104,7 @@ const Login = () => {
             {register?
               (<button 
                 type="button"
-                className="btn btn-sm btn-warning btn-block mt-2"
+                className="btn btn-md btn-warning btn-block mt-2"
                 onClick={ ()=> dispatch(desregistrar()) }
             > Ya tengo una cuenta
                
@@ -119,11 +119,7 @@ const Login = () => {
             </button>
               ) 
             } 
-
-            
          </div>
-
-         
      </form>
       </div>
       
