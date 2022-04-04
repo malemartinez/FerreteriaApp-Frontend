@@ -25,7 +25,8 @@ const RoutesPages = () => {
           <Route path='/admin' element={ rol == "admin" ? (<Admin/>): (<Navigate to="/"/>) }>
               <Route path= "registroVenta" element = {"registro" }/>
               <Route path= "Inventario" element = { <Inventario/>}/> 
-              <Route path='volante' element = {<Volante/> }/> 
+              <Route path='volante/' element = {<Volante/> }/> 
+              <Route path='productos' element = {<Productos/> }/> 
           </Route>
           <Route exact path= "/logged" element = {<Logged /> } />
           <Route exact path= "/login" element = {<Login /> } />
