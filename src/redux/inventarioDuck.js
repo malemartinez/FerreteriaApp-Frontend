@@ -21,9 +21,6 @@ export function inventarioReducer(state = dataInicial, {type , payload }){
 
   switch(type){
     case ActionTypes.SET_PRODUCTOS:
-      if(state.productos.length !== 0){
-        return {...state}
-      }
       return {...state, productos: payload}
 
     case ActionTypes.INVENTARIO_ERROR:
@@ -41,28 +38,29 @@ export function inventarioReducer(state = dataInicial, {type , payload }){
 
 // actions
 
-export const fetchData = () =>async(dispatch) => {
+export const productoInventario = ()=> async(dispatch) =>{
 
-  try {
-    const data = await fetch('https://ferreteriadonraul.herokuapp.com/productos')
-    const response = await data.json()
-    console.log(response)
-    return dispatch( {
-      type: ActionTypes.SET_PRODUCTOS,
-      payload: response
-    })
-    
-  } catch (error) {
-    dispatch( {
-      type: ActionTypes.INVENTARIO_ERROR,
-      payload: error
-      })
-  }
+    try{
+      const data = await fetch('https://ferreteriadonraul.herokuapp.com/productos')
+      const response = await data.json()
+      console.log(response)
+      dispatch(
+        {
+          type: ActionTypes.SET_PRODUCTOS,
+          payload: response
+        }
+      )
+
+    }catch (error) {
+      console.log(error)
+    }
+
 }
 
-export const sumInventario = ()=>{
+export const sumInventario = (precioCostoAcum)=>{
   return {
-    type: ActionTypes.REGISTER
+    type: ActionTypes.SUM_INVENTARIO,
+    payload: precioCostoAcum
   }
 }
 
@@ -72,63 +70,9 @@ export const desregistrar = ()=>{
   }
 }
 
-export const setRol = (rol)=>{
-  return{
-    type: ActionTypes.SET_ROL,
-    payload: rol
-  }
+export const errorInventario = (error)=>{
+  return {
+    type: ActionTypes.INVENTARIO_ERROR,
+    payload: error
+    }
 }
-
-export const setCloseSesion = ()=>{
-  return{
-    type: ActionTypes.CERRAR_SESION,
-  }
-}
-
-
-// const auth = getAuth();
-
-// export const  registrarInfoUsuario = (email,password, rol) => async(dispatch)=>{
-//   try {
-//       const dataUser = await createUserWithEmailAndPassword(auth, email, password)
-//         console.log(dataUser)
-    
-//         //crear usuario en la base de datos
-//         console.log(dataUser.user.uid);
-//         const docuRef = doc(db, `usuario/${dataUser.user.uid}`);
-//         await setDoc(docuRef, { correo: email, rol: rol });
-//         await addDoc(databaseCollection, {correo: email, rol: rol})
-    
-//       dispatch( {
-//         type: ActionTypes.FIREBASE_REGISTER,
-//         payload:rol
-//       })
-    
-//   } catch (error) {
-//     console.log(error)
-//     dispatch ( {
-//       type: ActionTypes.USER_ERROR,
-//       payload: error.message
-  
-//     })
-//   }
-// }
-
-// export const ingresoUsuario =  (email , password , rol) => async (dispatch) =>{
-
-//   try {
-//     await signInWithEmailAndPassword(auth, email, password)
-//     dispatch({
-//       type: ActionTypes.FIREBASE_LOGIN,
-//       payload:rol
-//     })
-//   } catch (error) {
-//     // const errorCode = error.code;
-//     // const errorMessage = error.message;
-//     dispatch( {
-//       type: ActionTypes.USER_ERROR,
-//       payload: error.message
-  
-//     })
-//   }
-// }

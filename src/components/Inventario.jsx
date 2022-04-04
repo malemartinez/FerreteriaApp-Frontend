@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useSelector , useDispatch } from 'react-redux';
-import { fetchData } from '../redux/inventarioDuck';
+import { productoInventario } from '../redux/inventarioDuck';
 import ProductoCard from './ProductoCard';
+import { errorInventario } from '../redux/inventarioDuck';
 
 function Inventario() {
 
@@ -9,13 +10,10 @@ function Inventario() {
   // const searchedEpisodes = useSelector( state => state.inventario.searchedEpisodes )
   const dispatch = useDispatch();
 
-
-
   useEffect(()=>{
-    dispatch(fetchData())
+    dispatch(productoInventario())
+  },[dispatch])
   
-  } , [dispatch])
-
 
   return (
     <div className="container">

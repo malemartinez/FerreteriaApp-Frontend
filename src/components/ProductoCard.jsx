@@ -5,10 +5,11 @@ import { sumInventario } from '../redux/inventarioDuck';
 function ProductoCard({producto}) {
 
   const dispatch = useDispatch();
+  const cantidad = parseInt(producto.cantidad)
+  const precio = parseInt(producto.precio)
+  const precioCosto = cantidad* precio
+  dispatch(sumInventario(precioCosto))
 
-  const [precioInventario , setPrecioInventario] = useState(null)
-  setPrecioInventario(producto.cantidad * producto.precio)
-  dispatch(sumInventario(precioInventario))
 
   return (
     <div className='col-md-4 mb-2' >
@@ -20,8 +21,8 @@ function ProductoCard({producto}) {
 
           </div>
           <div className='d-flex'>
-            <p>Precio Unidad: {producto.precio}</p>
-            <p>Precio en inventario: {(producto.cantidad * producto.precio)}</p>
+            <p >Precio Unidad: {producto.precio}</p>
+            <p className='text-muted'>Precio en inventario: {precioCosto}</p>
 
           </div>
 
