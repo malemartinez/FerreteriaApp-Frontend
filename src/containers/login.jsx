@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from 'firebase/auth';
 import { registrarInfoUsuario ,ingresoUsuario ,registrarUsuario } from '../redux/registroDuck';
 import { useNavigate } from 'react-router-dom';
-import { desregistrar } from '../redux/registroDuck';
+import { desregistrar , deleteError } from '../redux/registroDuck';
 
 
 
@@ -40,14 +40,14 @@ const Login = () => {
 
       try {
         dispatch(registrarInfoUsuario(email,password , rol))
-        
+        dispatch(deleteError())
       } catch (error) {
         console.error(error)
       }
     }else{
       try {
         dispatch(ingresoUsuario(email , password ,rol))
-        
+        dispatch(deleteError())
       } catch (error) {
         console.error(error)
       }

@@ -27,3 +27,13 @@ code {
   width: 100%;
   height: 100vh;
 }
+li{
+  list-style: none;
+}
+.color-icon{
+  color: rgb(155, 152, 139);
+}
+.color-icon:hover{
+  color: rgb(253, 206, 0);
+  cursor: pointer;
+}

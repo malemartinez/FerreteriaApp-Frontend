@@ -2,7 +2,7 @@ import React from 'react'
 
 const User = () => {
   return ( 
-    <div>Bieenvido usuario</div>
+    <div>Bienvido usuario</div>
 
    );
 }

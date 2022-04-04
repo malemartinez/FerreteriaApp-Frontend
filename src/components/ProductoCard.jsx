@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { sumInventario } from '../redux/inventarioDuck';
 
@@ -8,11 +8,15 @@ function ProductoCard({producto}) {
   const cantidad = parseInt(producto.cantidad)
   const precio = parseInt(producto.precio)
   const precioCosto = cantidad* precio
-  dispatch(sumInventario(precioCosto))
+
+  useEffect(()=>{
+    dispatch(sumInventario(precioCosto))
+
+  }, [dispatch])
 
 
   return (
-    <div className='col-md-4 mb-2' >
+    <div className='col-md-6 mb-2' >
       <div className="card shadow-sm p-3 rounded " >
         <div className="card-body">
           <div className='d-flex justify-content-between'>

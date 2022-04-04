@@ -30,6 +30,7 @@ export const ActionTypes = {
   LOADING : 'LOADING',
   USER_EXITO : 'USER_EXITO',
   USER_ERROR : 'USER_ERROR',
+  DELETE_ERROR: "DELETE_ERROR",
   CERRAR_SESION : 'CERRAR_SESION'
 
   
@@ -58,6 +59,9 @@ export function firebaseReducer(state = dataInicial, {type , payload }){
 
     case ActionTypes.USER_ERROR:
         return {...dataInicial , error: true , errorMessage: payload }
+    
+    case ActionTypes.DELETE_ERROR:
+      return { ...state, error:false , errorMessage: null  }
 
     case ActionTypes.USER_EXITO:
         return {...state, activo: true, user: payload}
@@ -89,6 +93,12 @@ export const registrarUsuario = ()=>{
 export const desregistrar = ()=>{
   return{
     type: ActionTypes.DESREGISTRAR
+  }
+}
+
+export const deleteError =()=>{
+  return{
+    type: ActionTypes.DELETE_ERROR
   }
 }
 
